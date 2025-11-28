@@ -11,7 +11,7 @@ import { TrashView } from './components/TrashView';
 import { Menu, ArrowLeft } from 'lucide-react';
 import { GraphState } from './types';
 
-import { generateText } from "./services/api";
+
 
 
 interface DashboardProps {
@@ -91,18 +91,6 @@ const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState('contacts');
   const [previousTab, setPreviousTab] = useState<string | null>(null);
 
-  const [out, setOut] = useState<string>("");
-  const [loading, setLoading] = useState(false);
-
-  async function testGemini() {
-    try {
-      setLoading(true);
-      const r = await generateText("Say hi in one sentence.");
-      setOut(r.text);
-    } finally {
-      setLoading(false);
-    }
-  }
   // Lifted Graph State
   const [graphState, setGraphState] = useState<GraphState>({
     searchTerm: '',
@@ -128,22 +116,6 @@ const App: React.FC = () => {
         <Sidebar activeTab={activeTab} setActiveTab={handleTabChange} />
 
         <div className="flex flex-col flex-1 h-full overflow-hidden">
-          {/* quick test bar */}
-          <div className="px-4 py-2 border-b bg-white flex items-center gap-3">
-            <button
-              onClick={testGemini}
-              disabled={loading}
-              className="px-3 py-2 rounded-md bg-indigo-600 text-white disabled:opacity-50"
-            >
-              {loading ? "Testing..." : "Test Gemini via backend"}
-            </button>
-
-            {out && (
-              <div className="text-sm text-slate-700 truncate">
-                {out}
-              </div>
-            )}
-          </div>
 
           <main className="flex-1 h-full overflow-hidden relative">
             <DashboardContent
